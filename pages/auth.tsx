@@ -1,4 +1,5 @@
 /* eslint-disable jsx-a11y/alt-text */
+import Input from '@/components/Input'
 import Image from 'next/image'
 import React from 'react'
 
@@ -12,6 +13,9 @@ export default function auth() {
             <div className='flex justify-center'>
                 <div className='bg-black bg-opacity-80 px-16 py-16 self-center mt-2 lg:max-w-md rounded-md w-full'>
                     <h2 className='text-white text-4xl mb-8 font-semibold'>Sign in</h2>
+                    <div className='flex flex-col gap-4'>
+                        <Input/>
+                    </div>
                 </div>
             </div>
         </div>
