@@ -10,12 +10,13 @@ export default function auth() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [varient, setVarient] = useState('login');
+  const [varient, setVarient] = useState("login");
 
   const toggleVarient = useCallback(() => {
-    setVarient((currentVarient) => currentVarient === 'login' ? 'register' : 'login');
+    setVarient((currentVarient) =>
+      currentVarient === "login" ? "register" : "login"
+    );
   }, []);
-  
 
   return (
     <div className="relative h-full w-full bg-[url('/images/hero.jpg')] bg-no-repeat bg-center bg-fixed bg-cover">
