@@ -8,7 +8,7 @@ import Image from "next/image";
 import Input from "@/components/Input";
 
 export default function auth() {
-  const [username, setUsername] = useState("");
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [varient, setVarient] = useState("login");
@@ -22,14 +22,14 @@ export default function auth() {
   const register = useCallback(async () => {
     try {
       await axios.post("/api/register", {
-        username,
         email,
+        name,
         password,
       });
-    } catch (err) {
-      console.log(err);
+    } catch (error) {
+      console.log(error);
     }
-  }, [username, email, password]);
+  }, [email, name, password]);
 
   return (
     <div className="relative h-full w-full bg-[url('/images/hero.jpg')] bg-no-repeat bg-center bg-fixed bg-cover">
@@ -45,11 +45,11 @@ export default function auth() {
             <div className="flex flex-col gap-3">
               {varient === "register" && (
                 <Input
-                  id="username"
-                  label="Username"
+                  id="name"
+                  label="name"
                   type="text"
-                  value={username}
-                  onChange={(e: any) => setUsername(e.target.value)}
+                  value={name}
+                  onChange={(e: any) => setName(e.target.value)}
                 />
               )}
               <Input
@@ -67,7 +67,10 @@ export default function auth() {
                 onChange={(e: any) => setPassword(e.target.value)}
               />
             </div>
-            <button className="bg-red-600 hover:bg-red-700 py-3 px-3 text-white rounded-md w-full mt-10 transition">
+            <button
+              onClick={register}
+              className="bg-red-600 hover:bg-red-700 py-3 px-3 text-white rounded-md w-full mt-10 transition"
+            >
               {varient === "login" ? "Login" : "Sign up"}
             </button>
             <p className="text-neutral-500 mt-10">
