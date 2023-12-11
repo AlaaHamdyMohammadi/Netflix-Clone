@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/alt-text */
 
 import React from "react";
+import axios from "axios";
 import { useState, useCallback } from "react";
 import Image from "next/image";
 import Input from "@/components/Input";
@@ -17,6 +18,18 @@ export default function auth() {
       currentVarient === "login" ? "register" : "login"
     );
   }, []);
+
+  const register = useCallback(async () => {
+    try {
+      await axios.post("/api/register", {
+        username,
+        email,
+        password,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }, [username, email, password]);
 
   return (
     <div className="relative h-full w-full bg-[url('/images/hero.jpg')] bg-no-repeat bg-center bg-fixed bg-cover">
