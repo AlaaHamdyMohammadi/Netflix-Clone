@@ -6,8 +6,11 @@ import axios from "axios";
 import { useState, useCallback } from "react";
 import Image from "next/image";
 import Input from "@/components/Input";
-
+import { signIn } from "next-auth/react";
+import { useRouter } from 'next/router';
+ 
 export default function auth() {
+  const router = useRouter();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -19,6 +22,20 @@ export default function auth() {
     );
   }, []);
 
+  const login = useCallback(async () => {
+    try {
+      await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+        callbackUrl: "/",
+      });
+      router.push("/");
+    } catch (err) {
+      console.log(err);
+    }
+  }, [email, password, router]);
+
   const register = useCallback(async () => {
     try {
       await axios.post("/api/register", {
@@ -26,10 +43,17 @@ export default function auth() {
         name,
         password,
       });
+
+      login();
     } catch (error) {
-      console.log(error);
+       console.error("Error during registration:", error);
+      //  if (error.response) {
+      //    console.error("Response data:", error.response.data);
+      //  }
     }
-  }, [email, name, password]);
+  }, [email, name, password, login]);
+
+  
 
   return (
     <div className="relative h-full w-full bg-[url('/images/hero.jpg')] bg-no-repeat bg-center bg-fixed bg-cover">
@@ -46,7 +70,7 @@ export default function auth() {
               {varient === "register" && (
                 <Input
                   id="name"
-                  label="name"
+                  label="Name"
                   type="text"
                   value={name}
                   onChange={(e: any) => setName(e.target.value)}
@@ -68,7 +92,7 @@ export default function auth() {
               />
             </div>
             <button
-              onClick={register}
+              onClick={varient === 'login' ? login : register}
               className="bg-red-600 hover:bg-red-700 py-3 px-3 text-white rounded-md w-full mt-10 transition"
             >
               {varient === "login" ? "Login" : "Sign up"}
